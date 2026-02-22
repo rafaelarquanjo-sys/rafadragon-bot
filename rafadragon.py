@@ -1,40 +1,38 @@
 import requests
-import time
+import os
 
-API_KEY = "mr_live_cwGRZzU9mbPhlj9XGE2NgxSp5SVlZbOE"
+API_KEY = os.environ.get("API_KEY")
 
 headers = {
     "Content-Type": "application/json",
     "X-API-Key": API_KEY
 }
 
-while True:
+def run():
     try:
         print("Verificando jogos...")
-        r = requests.get("https://api.moltyroyale.com/api/games?status=waiting")
+        r = requests.get("https://api.moltyroyale.com/api/games?status=waiting", timeout=10)
         data = r.json()
 
         if data["data"]:
             game_id = data["data"][0]["id"]
             print(f"JOGO ENCONTRADO: {game_id}")
 
-            body = {
-                "name": "Rafadragon"
-            }
+            body = {"name": "Rafadragon"}
 
             reg = requests.post(
                 f"https://api.moltyroyale.com/api/games/{game_id}/agents/register",
                 headers=headers,
-                json=body
+                json=body,
+                timeout=10
             )
 
             print("Registrado:", reg.json())
-            time.sleep(60)
-
         else:
             print("Nenhum jogo disponível.")
 
     except Exception as e:
         print("Erro:", e)
 
-    time.sleep(5)
+if __name__ == "__main__":
+    run()
