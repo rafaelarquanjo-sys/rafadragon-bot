@@ -1,7 +1,7 @@
 import requests
 import time
 
-API_KEY = "SUA_API_AQUI"
+API_KEY = "mr_live_cwGRZzU9mbPhlj9XGE2NgxSp5SVlZbOE"
 
 headers = {
     "Content-Type": "application/json",
